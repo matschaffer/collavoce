@@ -1,0 +1,5 @@
+= collavoce
+
+Powering MIDI through ruby.
+
+
