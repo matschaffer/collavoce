@@ -25,6 +25,15 @@ module Collavoce
     }
 
     def initialize(note)
+      case note
+      when String
+        init_from_string(note)
+      when Note
+        init_from_note(note)
+      end
+    end
+
+    def init_from_string(note)
       match = note.match(/^([ABCDEFGR])([#]*)?([b]*)?(\d)?([whqest])?/)
 
       raise UnparsableError.new("Couldn't parse note: #{note}") unless match
@@ -37,6 +46,31 @@ module Collavoce
         octave = (match[4] || "4").to_i
         @value = base_value + ((octave - 4) * 12) + offset
       end
+    end
+
+    def init_from_note(note)
+      @value    = note.value
+      @division = note.division
+    end
+
+    def aug!
+      @value += 1
+    end
+
+    def dim!
+      @value -= 1
+    end
+
+    def aug
+      copy = Note.new(self)
+      copy.aug!
+      copy
+    end
+
+    def dim
+      copy = Note.new(self)
+      copy.dim!
+      copy
     end
   end
 end

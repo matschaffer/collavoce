@@ -36,6 +36,17 @@ describe Collavoce::Note do
     note.new("Rs").division.should == 16
   end
 
+  it "augments and diminshes" do
+    c = note.new("C")
+    c.value.should == 60
+    c.aug.value.should == 61
+    c.dim.value.should == 59
+    c.dim!
+    c.value.should == 59
+    c.aug!
+    c.value.should == 60
+  end
+
   it "raises a useful exception if the note isn't parsable" do
     lambda { note.new("OMFG") }.should raise_error(Collavoce::Note::UnparsableError)
   end
