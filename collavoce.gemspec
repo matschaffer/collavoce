@@ -1,14 +1,16 @@
-spec = Gem::Specification.new do |s| 
-  s.name = 'collavoce'
+$spec = Gem::Specification.new do |s|
+  s.name    = 'collavoce'
   s.version = '0.0.1'
-  s.author = 'Mat Schaffer'
-  s.email = 'mat@schaffer.me'
-  s.homepage = 'http://matschaffer.com'
-  # TODO: mention jruby
-  s.platform = Gem::Platform::RUBY
   s.summary = 'Powering MIDI through ruby'
-  s.files = Dir['lib/**/*']
-  s.require_paths << 'lib'
-  s.has_rdoc = true
+
+  s.author   = 'Mat Schaffer'
+  s.email    = 'mat@schaffer.me'
+  s.homepage = 'https://github.com/matschaffer/collavoce'
+
+  s.add_development_dependency 'rspec'
+
+  s.files = Dir['README.rdoc', 'lib/**/*']
   s.extra_rdoc_files = ['README.rdoc']
+
+  s.rubyforge_project = 'nowarning'
 end
