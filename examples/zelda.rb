@@ -2,8 +2,8 @@ require 'collavoce'
 
 class Melody < Collavoce::Voice
   def step_down
-    notes[0] -= 1
-    notes[1] -= 1
+    notes[0].dim!
+    notes[1].dim!
   end
 
   def play_with(&block)
@@ -13,23 +13,19 @@ class Melody < Collavoce::Voice
 
   def self.run
     Thread.new do
-      v = new(:channel => 1, :notes => %w(G# B C#5 D5))
+      v = new(:channel => 1, :notes => %w(G#e Be C#5e D5e))
       3.times do
         v.play_with { step_down }
       end
-      v.play_with { step_down; notes[2] -= 1 }
+      v.play_with { step_down; notes[2].dim! }
       2.times do
-        v.play_with { notes[0] -= 1 }
+        v.play_with { notes[0].dim! }
       end
     end
   end
 end
 
 class BassLine < Collavoce::Voice
-  def tempo
-    W
-  end
-
   def self.run
     Thread.new do
       v = new(:channel => 2, :notes => %w(B A#))

@@ -6,30 +6,19 @@ module Collavoce
     ShortMessage = javax.sound.midi.ShortMessage
   
     BPM = 160
-  
-    W = (60.to_f / BPM) * 4
-    H = W / 2
-    Q = H / 2
-    E = Q / 2
-    S = Q / 2
-    T = S / 2
-  
-    # TODO maths
-    # C4 == 60
-    NOTES = {
-      "G" => 67,
-      "G#" => 68,
-      "A#" => 70,
-      "B" => 71,
-      "C#5" => 73,
-      "D5" => 74
-    }
-  
+ 
+    Timings = {1 => (60.to_f / BPM) * 4}
+    Timings[2]   = Timings[1]  / 2
+    Timings[4]   = Timings[2]  / 2
+    Timings[8]   = Timings[4]  / 2
+    Timings[16]  = Timings[8]  / 2
+    Timings[32]  = Timings[16] / 2
+
     attr_accessor :notes
   
     def initialize(options = {})
       @channel = (options.delete(:channel) || 1) - 1
-      @notes   = options.delete(:notes).map { |n| NOTES[n] }
+      @notes   = options.delete(:notes).map { |n| Note.new(n) }
     end
 
     def device
@@ -45,24 +34,20 @@ module Collavoce
       @receiver = device.get_receiver
     end
   
-    def send_note(note, time, channel)
+    def send_note(note, channel)
       noteon = ShortMessage.new
-      noteon.set_message(ShortMessage::NOTE_ON, channel, note, 127);
+      noteon.set_message(ShortMessage::NOTE_ON, channel, note.value, 127);
       noteoff = ShortMessage.new
-      noteoff.set_message(ShortMessage::NOTE_OFF, channel, note, 127);
+      noteoff.set_message(ShortMessage::NOTE_OFF, channel, note.value, 127);
       receiver.send(noteon, 0)
-      sleep time
+      sleep Timings[note.division]
       receiver.send(noteoff, 0)
-    end
-  
-    def tempo
-      S
     end
   
     def play(this_many = 1)
      this_many.times do
        @notes.each do |note|
-         send_note(note, tempo, @channel)
+         send_note(note, @channel)
        end
      end
     end
