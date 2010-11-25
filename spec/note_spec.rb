@@ -20,20 +20,24 @@ describe Collavoce::Note do
     note.new("C3").value.should == 48
   end
 
-  it "converts division" do
-    note.new("C5w").division.should  == 1
-    note.new("C#5h").division.should == 2
-    note.new("Db3q").division.should == 4
-    note.new("Ee").division.should   == 8
-    note.new("Fbs").division.should  == 16
-    note.new("G#t").division.should  == 32
+  it "converts duration" do
+    note.new("C5w").duration.should  == 1
+    note.new("C#5h").duration.should == 1.to_f / 2
+    note.new("Db3q").duration.should == 1.to_f / 4
+    note.new("Ee").duration.should   == 1.to_f / 8
+    note.new("Fbs").duration.should  == 1.to_f / 16
+    note.new("G#t").duration.should  == 1.to_f / 32
 
-    note.new("C").division.should    == 4
+    note.new("C").duration.should    == 1.to_f / 4
+  end
+
+  it "converts complex durations" do
+    note.new("C#5hs").duration.should == 1.to_f / 2 + 1.to_f / 16
   end
 
   it "converts rests" do
     note.new("Rs").value.should be_nil
-    note.new("Rs").division.should == 16
+    note.new("Rs").duration.should == 1.to_f / 16
   end
 
   it "augments and diminshes" do

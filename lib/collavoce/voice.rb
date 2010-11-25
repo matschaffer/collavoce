@@ -6,13 +6,7 @@ module Collavoce
     ShortMessage = javax.sound.midi.ShortMessage
   
     BPM = 160
- 
-    Timings = {1 => (60.to_f / BPM) * 4}
-    Timings[2]   = Timings[1]  / 2
-    Timings[4]   = Timings[2]  / 2
-    Timings[8]   = Timings[4]  / 2
-    Timings[16]  = Timings[8]  / 2
-    Timings[32]  = Timings[16] / 2
+    BarDuration = (60.to_f / BPM) * 4
 
     attr_accessor :notes
   
@@ -26,7 +20,8 @@ module Collavoce
       possible = all.select { |i| i.get_name == "Bus 1" }
       devices = possible.map { |i| MidiSystem.get_midi_device(i) }
       device = devices.select { |d| d.get_max_receivers != 0 }.first
-      device.tap(&:open)
+      device.open
+      device
     end
   
     def receiver
@@ -40,7 +35,7 @@ module Collavoce
       noteoff = ShortMessage.new
       noteoff.set_message(ShortMessage::NOTE_OFF, channel, note.value, 127);
       receiver.send(noteon, 0)
-      sleep Timings[note.division]
+      sleep BarDuration * note.duration
       receiver.send(noteoff, 0)
     end
   

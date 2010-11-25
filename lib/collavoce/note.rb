@@ -3,7 +3,7 @@ module Collavoce
     class UnparsableError < RuntimeError; end
 
     attr_accessor :value
-    attr_accessor :division
+    attr_accessor :duration
 
     NOTES = {
       "C" => 60,
@@ -17,11 +17,11 @@ module Collavoce
 
     DIVISIONS = {
       "w" => 1,
-      "h" => 2,
-      "q" => 4,
-      "e" => 8,
-      "s" => 16,
-      "t" => 32
+      "h" => 1.to_f / 2,
+      "q" => 1.to_f / 4,
+      "e" => 1.to_f / 8,
+      "s" => 1.to_f / 16,
+      "t" => 1.to_f / 32
     }
 
     def initialize(note)
@@ -34,11 +34,18 @@ module Collavoce
     end
 
     def init_from_string(note)
-      match = note.match(/^([ABCDEFGR])([#]*)?([b]*)?(\d)?([whqest])?/)
+      match = note.match(/^([ABCDEFGR])([#]*)?([b]*)?(\d)?([whqest]*)/)
 
       raise UnparsableError.new("Couldn't parse note: #{note}") unless match
 
-      @division = DIVISIONS[match[5] || "q"]
+      if match[5].empty?
+        @duration = DIVISIONS["q"]
+      else
+        @duration = 0
+        match[5].each_char do |c|
+          @duration += DIVISIONS[c]
+        end
+      end
 
       if base_value = NOTES[match[1]]
         offset = (match[2] || "").length
@@ -50,7 +57,7 @@ module Collavoce
 
     def init_from_note(note)
       @value    = note.value
-      @division = note.division
+      @duration = note.duration
     end
 
     def aug!
