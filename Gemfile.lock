@@ -1,12 +1,15 @@
 PATH
   remote: .
   specs:
-    collavoce (0.0.1)
+    collavoce (0.0.2a)
 
 GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.1.2)
+    mocha (0.9.9)
+      rake
+    rake (0.8.7)
     rspec (2.1.0)
       rspec-core (~> 2.1.0)
       rspec-expectations (~> 2.1.0)
@@ -22,4 +25,5 @@ PLATFORMS
 
 DEPENDENCIES
   collavoce!
+  mocha
   rspec

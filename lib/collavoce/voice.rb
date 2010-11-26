@@ -5,14 +5,13 @@ module Collavoce
     MidiSystem = javax.sound.midi.MidiSystem
     ShortMessage = javax.sound.midi.ShortMessage
   
-    BPM = 160
-    BarDuration = (60.to_f / BPM) * 4
-
     attr_accessor :notes
   
     def initialize(options = {})
-      @channel = (options.delete(:channel) || 1) - 1
-      @notes   = options.delete(:notes).map { |n| Note.new(n) }
+      @channel      = (options.delete(:channel) || 1) - 1
+      @notes        = options.delete(:notes).map { |n| Note.new(n) }
+      @bpm          = options.delete(:bpm) || 120
+      @bar_duration = (60.to_f / @bpm) * 4
     end
 
     def device
@@ -35,7 +34,7 @@ module Collavoce
       noteoff = ShortMessage.new
       noteoff.set_message(ShortMessage::NOTE_OFF, channel, note.value, 127);
       receiver.send(noteon, 0)
-      sleep BarDuration * note.duration
+      sleep @bar_duration * note.duration
       receiver.send(noteoff, 0)
     end
   

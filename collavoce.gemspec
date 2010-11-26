@@ -8,6 +8,7 @@ $spec = Gem::Specification.new do |s|
   s.homepage = 'https://github.com/matschaffer/collavoce'
 
   s.add_development_dependency 'rspec'
+  s.add_development_dependency 'mocha'
 
   s.files = Dir['README.rdoc', 'lib/**/*']
   s.extra_rdoc_files = ['README.rdoc']
