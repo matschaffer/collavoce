@@ -6,6 +6,18 @@ module Collavoce
     ShortMessage = javax.sound.midi.ShortMessage
   
     attr_accessor :notes
+
+    def self.notes(notes)
+      @notes = notes
+    end
+
+    def self.channel(channel)
+      @channel = channel
+    end
+
+    def self.new(options = {})
+      super({:notes => @notes, :channel => @channel}.merge(options))
+    end
   
     def initialize(options = {})
       @channel      = (options.delete(:channel) || 1) - 1
