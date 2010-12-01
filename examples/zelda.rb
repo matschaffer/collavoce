@@ -9,7 +9,7 @@ class Melody < Collavoce::Voice
     notes[1].dim!
   end
 
-  def play_with(&block)
+  def play_with
     yield
     play(4)
   end
