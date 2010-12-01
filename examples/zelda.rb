@@ -27,14 +27,14 @@ end
 
 class BassLine < Collavoce::Voice
   channel 2
-  notes %w(B A#)
+  notes %w(G3wqe Bb3qe D Dbh Gb3h)
 
   def run
-    play(4)
+    play
   end
 end
 
 Collavoce::Tracker.new(
   [Melody],
   [BassLine]
-).run
+).run(240)
