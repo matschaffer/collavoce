@@ -34,4 +34,7 @@ class BassLine < Collavoce::Voice
   end
 end
 
-Melody.new.run
+Collavoce::Tracker.new(
+  [Melody],
+  [BassLine]
+).run
