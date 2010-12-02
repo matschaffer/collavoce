@@ -5,8 +5,7 @@ class Melody < Collavoce::Voice
   notes %w(G#e Be C#5e D5e) 
 
   def step_down
-    notes[0].dim!
-    notes[1].dim!
+    mod_notes(0, 1, &:dim!)
   end
 
   def play_with
