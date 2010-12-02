@@ -25,16 +25,24 @@ class Melody < Collavoce::Voice
   end
 end
 
-class BassLine < Collavoce::Voice
+class BassPart1 < Collavoce::Voice
   channel 2
-  notes %w(G3wqe Bb3qe D Dbh Gb3h)
+  notes %w(G3wqe Bb3qe D Dbh Gb3hw)
 
   def run
+    play
+    mod_notes(0, 1, 4, &:dim!)
+    mod_notes(&:dim!)
     play
   end
 end
 
+class BassPart2 < Collavoce::Voice
+  channel 2
+  notes %w(Eb3w G3h Ebqe D)
+end
+
 Collavoce::Tracker.new(
   [Melody],
-  [BassLine]
+  [BassPart1, BassPart2]
 ).run(240)
