@@ -41,13 +41,18 @@ module Collavoce
     end
   
     def send_note(note, channel)
-      noteon = ShortMessage.new
-      noteon.set_message(ShortMessage::NOTE_ON, channel, note.value, 127);
-      noteoff = ShortMessage.new
-      noteoff.set_message(ShortMessage::NOTE_OFF, channel, note.value, 127);
-      receiver.send(noteon, 0)
-      sleep @bar_duration * note.duration
-      receiver.send(noteoff, 0)
+      duration = @bar_duration * note.duration
+      if note.value
+        noteon = ShortMessage.new
+        noteon.set_message(ShortMessage::NOTE_ON, channel, note.value, 127);
+        noteoff = ShortMessage.new
+        noteoff.set_message(ShortMessage::NOTE_OFF, channel, note.value, 127);
+        receiver.send(noteon, 0)
+        sleep duration
+        receiver.send(noteoff, 0)
+      else
+        sleep duration
+      end
     end
   
     def play(this_many = 1)

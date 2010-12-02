@@ -27,5 +27,12 @@ describe Collavoce::Voice do
     @voice.expects(:sleep).with(1).times(4)
     @voice.play
   end
+
+  it "should just pause on rests" do
+    @voice.notes = [ Collavoce::Note.new("R") ]
+    ShortMessage.any_instance.expects(:set_message).never
+    @voice.expects(:sleep).with(1)
+    @voice.play
+  end
 end
 
