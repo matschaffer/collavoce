@@ -79,5 +79,9 @@ module Collavoce
       copy.dim!
       copy
     end
+
+    def ==(other)
+      value == other.value && duration == other.duration
+    end
   end
 end

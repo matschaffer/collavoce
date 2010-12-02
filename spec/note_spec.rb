@@ -1,47 +1,47 @@
 require 'spec_helper'
 
 describe Collavoce::Note do
-  let(:note) { Collavoce::Note }
+  Note = Collavoce::Note
 
   it "converts basic notes" do
-    note.new("C").value.should == 60
-    note.new("D").value.should == 62
+    Note.new("C").value.should == 60
+    Note.new("D").value.should == 62
   end
 
   it "converts sharps and flats" do
-    note.new("C#").value.should  == 61
-    note.new("C##").value.should == 62
-    note.new("Eb").value.should  == 63
-    note.new("Ebb").value.should == 62 
+    Note.new("C#").value.should  == 61
+    Note.new("C##").value.should == 62
+    Note.new("Eb").value.should  == 63
+    Note.new("Ebb").value.should == 62
   end
 
   it "converts octaves" do
-    note.new("C5").value.should == 72
-    note.new("C3").value.should == 48
+    Note.new("C5").value.should == 72
+    Note.new("C3").value.should == 48
   end
 
   it "converts duration" do
-    note.new("C5w").duration.should  == 1
-    note.new("C#5h").duration.should == 1.to_f / 2
-    note.new("Db3q").duration.should == 1.to_f / 4
-    note.new("Ee").duration.should   == 1.to_f / 8
-    note.new("Fbs").duration.should  == 1.to_f / 16
-    note.new("G#t").duration.should  == 1.to_f / 32
+    Note.new("C5w").duration.should  == 1
+    Note.new("C#5h").duration.should == 1.to_f / 2
+    Note.new("Db3q").duration.should == 1.to_f / 4
+    Note.new("Ee").duration.should   == 1.to_f / 8
+    Note.new("Fbs").duration.should  == 1.to_f / 16
+    Note.new("G#t").duration.should  == 1.to_f / 32
 
-    note.new("C").duration.should    == 1.to_f / 4
+    Note.new("C").duration.should    == 1.to_f / 4
   end
 
   it "converts complex durations" do
-    note.new("C#5hs").duration.should == 1.to_f / 2 + 1.to_f / 16
+    Note.new("C#5hs").duration.should == 1.to_f / 2 + 1.to_f / 16
   end
 
   it "converts rests" do
-    note.new("Rs").value.should be_nil
-    note.new("Rs").duration.should == 1.to_f / 16
+    Note.new("Rs").value.should be_nil
+    Note.new("Rs").duration.should == 1.to_f / 16
   end
 
   it "augments and diminshes" do
-    c = note.new("C")
+    c = Note.new("C")
     c.value.should == 60
     c.aug.value.should == 61
     c.dim.value.should == 59
@@ -52,6 +52,12 @@ describe Collavoce::Note do
   end
 
   it "raises a useful exception if the note isn't parsable" do
-    lambda { note.new("OMFG") }.should raise_error(Collavoce::Note::UnparsableError)
+    lambda { Note.new("OMFG") }.should raise_error(Collavoce::Note::UnparsableError)
+  end
+
+  it "knows about equality" do
+    Note.new("C").should == Note.new("C")
+    Note.new("C").should_not == Note.new("D")
+    Note.new("Cs").should_not == Note.new("Ce")
   end
 end
