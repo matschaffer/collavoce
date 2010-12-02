@@ -34,5 +34,14 @@ describe Collavoce::Voice do
     @voice.expects(:sleep).with(1)
     @voice.play
   end
+
+  it "has helpers for modifying groups of notes" do
+    @voice.mod_notes(&:dim!)
+    @voice.notes[0].should == Collavoce::Note.new("Cb")
+    @voice.notes[1].should == Collavoce::Note.new("Db")
+    @voice.mod_notes(2, 3, &:aug!)
+    @voice.notes[2].should == Collavoce::Note.new("E")
+    @voice.notes[3].should == Collavoce::Note.new("F")
+  end
 end
 

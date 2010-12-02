@@ -62,5 +62,20 @@ module Collavoce
        end
      end
     end
+
+    def run
+      play
+    end
+
+    def mod_notes(*indices)
+      if indices.empty?
+        notes_to_mod = notes
+      else
+        notes_to_mod = notes.values_at(*indices)
+      end
+      notes_to_mod.each do |n|
+        yield n
+      end
+    end
   end
 end
