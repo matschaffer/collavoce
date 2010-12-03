@@ -15,5 +15,9 @@ module Collavoce
       end
       @threads.map(&:join)
     end
+
+    def loop(bpm=120)
+      run(bpm) while true
+    end
   end
 end
