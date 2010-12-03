@@ -39,7 +39,7 @@ end
 
 class BassPart2 < Collavoce::Voice
   channel 2
-  notes %w(Eb3w G3qe Ebqe D)
+  notes %w(Eb3w G3qes Ebqs D)
   def run
     play
     mod_notes(0, 2, 3, &:dim!)
