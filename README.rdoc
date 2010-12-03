@@ -2,4 +2,32 @@
 
 Powering MIDI through ruby.
 
+= Installation
 
+    gem install collavoce
+
+Or get the repo and run `rake gem` to make your own gem to install. Or point bundler at it, or tweak your load path, your call really.
+
+= Usage
+
+Right now this is still a little raw, but have a look at examples/zelda.rb to get a feel for it.
+
+The basic idea is just a DSL for building melodies from arrays of strings. These notes and timings are then used to send MIDI events. Currently the MIDI device isn't configuratable (see lib/collavoce/voice.rb on that one). But that should get cleaned up soon.
+
+The note syntax is inspired by jFugue. The pattern is:
+
+    NOTE - OCTAVE - TIMING
+
+So note can be "C" or "C#" or "Ebb". Follow that with an optional octave number (default is 4). Then timing characters. Options are "w"hole, "h"alf, "q"uarter, "s"ixteenth, "t"hirtysecond. And you can combine timings. So a dotted quarter note would be "qe".
+
+Additionall if you use "R" as the note it will produce a rest in the melody. Same timing pattern applies. Octave will be, of course, ignored.
+
+So "Twinkle Twinkle little star" could be: %w(C C G G A A Gh)
+
+Each Voice represents a part of the song. It gets a channel and notes, then you can put it in a tracker like this:
+
+    Collavoce::Tracker.new([TwinkleTwinkle]).run
+
+The tracker allows for multiple parallel tracks of voice sequences. This uses threading right now, but I could see moving to Ruck if timing ever got a little off.
+
+If you want a Voice to have more interesting characteristics than just the notes you can override Voice#run and do whatever you want. I've included helpers for diminishing (half step down) and augmenting (half step up) sets of notes. So far this has been enough for me, but I'm sure we'll start adding more helpers once more people try making things with this.
