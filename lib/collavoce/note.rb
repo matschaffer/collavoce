@@ -1,6 +1,7 @@
 module Collavoce
   class Note
     class UnparsableError < RuntimeError; end
+    ShortMessage = Java::javax.sound.midi.ShortMessage
 
     attr_accessor :value
     attr_accessor :duration
@@ -82,6 +83,32 @@ module Collavoce
 
     def ==(other)
       value == other.value && duration == other.duration
+    end
+
+    def on(receiver, channel)
+      @receiver = receiver
+      @channel = channel
+
+      message = ShortMessage.new
+      message.set_message(ShortMessage::NOTE_ON, @channel, value, 127);
+      @receiver.send(message, 0)
+    end
+
+    def off
+      message = ShortMessage.new
+      message.set_message(ShortMessage::NOTE_OFF, @channel, value, 127);
+      @receiver.send(message, 0)
+    end
+
+    def play(receiver, channel, bar_duration)
+      sleep_duration = bar_duration * duration
+      if value
+        on(receiver, channel)
+        sleep sleep_duration
+        off
+      else
+        sleep sleep_duration
+      end
     end
   end
 end

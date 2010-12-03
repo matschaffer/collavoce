@@ -60,4 +60,20 @@ describe Collavoce::Note do
     Note.new("C").should_not == Note.new("D")
     Note.new("Cs").should_not == Note.new("Ce")
   end
+
+  it "should play itself on a receiver" do
+    @receiver = mock('receiver')
+    @note = Note.new("C")
+
+    @receiver.expects(:send).with(is_a(Note::ShortMessage), 0).twice
+    @note.expects(:sleep).with(1)
+
+    @note.play(@receiver, 0, 4)
+  end
+
+  it "should just pause on rests" do
+    @note = Note.new("R")
+    @note.expects(:sleep).with(1)
+    @note.play(nil, nil, 4)
+  end
 end

@@ -1,10 +1,7 @@
 module Collavoce
   class Voice
-    include Java
-  
-    MidiSystem = javax.sound.midi.MidiSystem
-    ShortMessage = javax.sound.midi.ShortMessage
-  
+    MidiSystem = Java::javax.sound.midi.MidiSystem
+
     attr_accessor :notes
 
     def self.notes(notes)
@@ -18,7 +15,7 @@ module Collavoce
     def self.new(options = {})
       super({:notes => @notes, :channel => @channel}.merge(options))
     end
-  
+
     def initialize(options = {})
       @channel      = (options.delete(:channel) || 1) - 1
       @notes        = options.delete(:notes).map { |n| Note.new(n) }
@@ -34,27 +31,16 @@ module Collavoce
       device.open
       device
     end
-  
+
     def receiver
       return @receiver if @receiver
       @receiver = device.get_receiver
     end
-  
+
     def send_note(note, channel)
-      duration = @bar_duration * note.duration
-      if note.value
-        noteon = ShortMessage.new
-        noteon.set_message(ShortMessage::NOTE_ON, channel, note.value, 127);
-        noteoff = ShortMessage.new
-        noteoff.set_message(ShortMessage::NOTE_OFF, channel, note.value, 127);
-        receiver.send(noteon, 0)
-        sleep duration
-        receiver.send(noteoff, 0)
-      else
-        sleep duration
-      end
+      note.play(receiver, channel, @bar_duration)
     end
-  
+
     def play(this_many = 1)
      this_many.times do
        @notes.each do |note|
