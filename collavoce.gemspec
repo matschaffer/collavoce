@@ -1,6 +1,6 @@
 $spec = Gem::Specification.new do |s|
   s.name    = 'collavoce'
-  s.version = '0.0.3a'
+  s.version = '0.0.3'
   s.summary = 'Powering MIDI through ruby'
 
   s.author   = 'Mat Schaffer'
