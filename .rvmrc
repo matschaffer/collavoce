@@ -1,1 +1,1 @@
-rvm use --create jruby@collavoce
+rvm use jruby
