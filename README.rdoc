@@ -1,12 +1,14 @@
 = collavoce
 
-Powering MIDI through ruby.
+Powering MIDI through JRuby.
 
 = Installation
 
     gem install collavoce
 
 Or get the repo and run `rake gem` to make your own gem to install. Or point bundler at it, or tweak your load path, your call really.
+
+Oh, and this is JRuby only at the moment. MRI should be doable I just haven't gotten around to it yet.
 
 = Usage
 
