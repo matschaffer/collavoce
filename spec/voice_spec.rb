@@ -43,5 +43,14 @@ describe Collavoce::Voice do
     @voice.notes[2].should == Collavoce::Note.new("E")
     @voice.notes[3].should == Collavoce::Note.new("F")
   end
+
+  it "has helpers for diminishing and augmenting notes" do
+    @voice.dim_notes
+    @voice.notes[0].should == Collavoce::Note.new("Cb")
+    @voice.notes[1].should == Collavoce::Note.new("Db")
+    @voice.aug_notes(2, 3)
+    @voice.notes[2].should == Collavoce::Note.new("E")
+    @voice.notes[3].should == Collavoce::Note.new("F")
+  end
 end
 

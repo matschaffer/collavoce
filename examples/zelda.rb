@@ -4,10 +4,6 @@ class Melody1 < Collavoce::Voice
   channel 1
   notes %w(G#e Be C#5e D5e) 
 
-  def step_down
-    mod_notes(0, 1, &:dim!)
-  end
-
   def play_with
     yield
     play(4)
@@ -15,11 +11,11 @@ class Melody1 < Collavoce::Voice
 
   def run
     3.times do
-      play_with { step_down }
+      play_with { dim_notes(0, 1) }
     end
-    play_with { step_down; notes[2].dim! }
+    play_with { dim_notes(0, 1, 2) }
     2.times do
-      play_with { notes[0].dim! }
+      play_with { dim_notes(0) }
     end
     play(4)
   end
@@ -31,8 +27,8 @@ class BassPart1 < Collavoce::Voice
 
   def run
     play
-    mod_notes(0, 1, 4, &:dim!)
-    mod_notes(&:dim!)
+    dim_notes(0, 1, 4)
+    dim_notes
     play
   end
 end
@@ -42,7 +38,7 @@ class BassPart2 < Collavoce::Voice
   notes %w(Eb3w G3qes Ebqs D)
   def run
     play
-    mod_notes(0, 2, 3, &:dim!)
+    dim_notes(0, 2, 3)
     play
   end
 end

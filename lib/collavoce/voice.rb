@@ -77,5 +77,17 @@ module Collavoce
         yield n
       end
     end
+
+    def dim_notes(*indices)
+      mod_notes(*indices) do |n|
+        n.dim!
+      end
+    end
+
+    def aug_notes(*indices)
+      mod_notes(*indices) do |n|
+        n.aug!
+      end
+    end
   end
 end
