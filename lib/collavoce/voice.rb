@@ -44,6 +44,7 @@ module Collavoce
     def play(this_many = 1)
      this_many.times do
        @notes.each do |note|
+         break unless Collavoce.running
          send_note(note, @channel)
        end
      end

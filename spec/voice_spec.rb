@@ -40,5 +40,11 @@ describe Collavoce::Voice do
     @voice.notes[2].should == Collavoce::Note.new("E")
     @voice.notes[3].should == Collavoce::Note.new("F")
   end
+
+  it "stops playing when Collavoce.stop is called" do
+    Collavoce.stop
+    Collavoce::Note.any_instance.expects(:play).never
+    @voice.play
+  end
 end
 
