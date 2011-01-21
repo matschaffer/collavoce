@@ -46,5 +46,40 @@ describe Collavoce::Voice do
     Collavoce::Note.any_instance.expects(:play).never
     @voice.play
   end
+
+  it "tells the user if there are no output devices" do
+    @voice.stubs(:output_devices).returns([])
+    expect { @voice.device }.to raise_error(RuntimeError, /No output devices/)
+  end
+
+  it "tells the user if the requested device wasn't found" do
+    Collavoce.device_name = "bob"
+    @voice.stubs(:output_devices).returns([])
+    expect { @voice.device }.to raise_error(RuntimeError, /bob/)
+  end
+
+  def make_mock_device(name)
+    info = stub_everything('info')
+    info.stubs(:get_name).returns(name)
+    device = stub_everything('device')
+    device.stubs(:get_device_info).returns(info)
+    device
+  end
+
+
+  it "picks the first device if no device was specified" do
+    Collavoce.device_name = nil
+    mock_device = make_mock_device('not bob')
+    @voice.stubs(:output_devices).returns([mock_device])
+    $stderr.stubs(:puts)
+    @voice.device.should == mock_device
+  end
+
+  it "uses the output device specifed by Collavoce.device" do
+    Collavoce.device_name = "bob"
+    mock_device = make_mock_device('bob')
+    @voice.stubs(:output_devices).returns([make_mock_device('not bob'), mock_device])
+    @voice.device.should == mock_device
+  end
 end
 
