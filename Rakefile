@@ -9,3 +9,14 @@ task :push => :gem do
   sh "gem push #{gem.package_dir}/#{gem.gem_file}"
 end
 
+desc "Play a tune"
+task :demo do
+  sh "ruby -Ilib examples/zelda.rb"
+end
+
+desc "Run all specs"
+task :specs do
+  sh "rspec spec"
+end
+
+task :default => :specs
