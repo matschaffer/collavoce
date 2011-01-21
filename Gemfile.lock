@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    collavoce (0.0.4a)
+    collavoce (0.0.5a)
 
 GEM
   remote: http://rubygems.org/
