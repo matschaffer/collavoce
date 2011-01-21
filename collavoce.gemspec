@@ -1,4 +1,4 @@
-$spec = Gem::Specification.new do |s|
+Gem::Specification.new do |s|
   s.name    = 'collavoce'
   s.version = '0.0.4a'
   s.summary = 'Powering MIDI through ruby'

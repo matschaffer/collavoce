@@ -1,7 +1,7 @@
 require 'rake/gempackagetask'
-load 'collavoce.gemspec'
 
-gem = Rake::GemPackageTask.new($spec)
+spec = Gem::Specification.load(Dir['*.gemspec'].first)
+gem = Rake::GemPackageTask.new(spec)
 gem.define
 
 desc "Push gem to rubygems.org"
