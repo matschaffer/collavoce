@@ -1,8 +1,11 @@
 require 'rake/gempackagetask'
 
-spec = Gem::Specification.load(Dir['*.gemspec'].first)
-gem = Rake::GemPackageTask.new(spec)
-gem.define
+begin
+  spec = Gem::Specification.load(Dir['*.gemspec'].first)
+  gem = Rake::GemPackageTask.new(spec)
+  gem.define
+rescue TypeError
+end
 
 desc "Push gem to rubygems.org"
 task :push => :gem do

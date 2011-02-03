@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'mocha'
 
-  s.files = Dir['.gemtest', 'README.rdoc', 'lib/**/*']
+  s.files = Dir['.gemtest', 'Rakefile', 'README.rdoc', 'lib/**/*', 'spec/**/*']
   s.extra_rdoc_files = ['README.rdoc']
 
   s.rubyforge_project = 'nowarning'
