@@ -19,4 +19,5 @@ task :specs do
   sh "rspec spec"
 end
 
+task :test => :specs
 task :default => :specs
