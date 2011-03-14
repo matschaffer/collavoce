@@ -85,27 +85,24 @@ module Collavoce
       value == other.value && duration == other.duration
     end
 
-    def on(receiver, channel)
-      @receiver = receiver
-      @channel = channel
-
+    def on(device, channel)
       message = ShortMessage.new
-      message.set_message(ShortMessage::NOTE_ON, @channel, value, 127);
-      @receiver.send(message, 0)
+      message.set_message(ShortMessage::NOTE_ON, channel, value, 127);
+      device.send(message, 0)
     end
 
-    def off
+    def off(device, channel)
       message = ShortMessage.new
-      message.set_message(ShortMessage::NOTE_OFF, @channel, value, 127);
-      @receiver.send(message, 0)
+      message.set_message(ShortMessage::NOTE_OFF, channel, value, 127);
+      device.send(message, 0)
     end
 
-    def play(receiver, channel, bar_duration)
+    def play(device, channel, bar_duration)
       sleep_duration = bar_duration * duration
       if value
-        on(receiver, channel)
+        on(device, channel)
         sleep sleep_duration
-        off
+        off(device, channel)
       else
         sleep sleep_duration
       end
