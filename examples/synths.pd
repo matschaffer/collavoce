@@ -1,15 +1,15 @@
-#N canvas 291 114 671 322 10;
-#X obj -4 35 notein 1;
-#X obj -4 67 mtof;
-#X obj -4 106 osc~;
-#X obj -4 197 dac~;
-#X obj 107 66 mtof;
-#X obj 107 246 dac~;
-#X obj 107 34 notein 2;
-#X obj 107 160 tabread4~ waveform;
-#X obj 107 111 phasor~;
-#X obj 107 135 *~ 2051;
-#X msg 248 26 \; waveform sinesum 2051 1 0 -0.111111 0 0.04 0 -0.020482
+#N canvas 344 90 715 340 10;
+#X obj 54 57 notein 1;
+#X obj 54 89 mtof;
+#X obj 54 128 osc~;
+#X obj 54 219 dac~;
+#X obj 165 88 mtof;
+#X obj 165 268 dac~;
+#X obj 165 56 notein 2;
+#X obj 165 182 tabread4~ waveform;
+#X obj 165 133 phasor~;
+#X obj 165 157 *~ 2051;
+#X msg 306 48 \; waveform sinesum 2051 1 0 -0.111111 0 0.04 0 -0.020482
 0 0.0123457 0 -0.00026446 \; waveform normalize 1;
 #N canvas 0 22 450 300 (subpatch) 0;
 #X array waveform 2051 float 1;
@@ -291,7 +291,7 @@
 -0.0172276 -0.0150766 -0.0129248 -0.0107723 -0.00861927 -0.00646577
 -0.00431195 -0.00215789 -3.72647e-06 0.00215044;
 #X coords 0 1 2050 -1 200 140 1;
-#X restore 247 96 graph;
+#X restore 305 118 graph;
 #N canvas 1058 220 216 289 envelope 0;
 #X obj 91 51 moses 1;
 #X obj 91 138 vline~;
@@ -309,7 +309,7 @@
 #X connect 5 0 1 0;
 #X connect 6 0 3 0;
 #X connect 7 0 0 0;
-#X restore -4 143 pd envelope;
+#X restore 54 165 pd envelope;
 #N canvas 1058 220 216 289 envelope 0;
 #X obj 91 51 moses 1;
 #X obj 91 138 vline~;
@@ -327,7 +327,7 @@
 #X connect 5 0 1 0;
 #X connect 6 0 3 0;
 #X connect 7 0 0 0;
-#X restore 107 195 pd envelope;
+#X restore 165 217 pd envelope;
 #X connect 0 0 1 0;
 #X connect 0 1 12 1;
 #X connect 1 0 2 0;
