@@ -14,7 +14,8 @@ end
 
 desc "Play a tune"
 task :demo do
-  sh "ruby -Ilib examples/zelda.rb"
+  $LOAD_PATH << "lib"
+  load 'examples/zelda.rb'
 end
 
 desc "Run all specs"
