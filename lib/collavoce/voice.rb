@@ -6,23 +6,26 @@ module Collavoce
       @notes = notes
     end
 
+    def channel
+      0
+    end
+
     def self.channel(channel)
-      @channel = channel
+      define_method(:channel) { channel - 1 }
     end
 
     def self.new(options = {})
-      super({:notes => @notes, :channel => @channel}.merge(options))
+      super({:notes => @notes}.merge(options))
     end
 
     def initialize(options = {})
       @device       = options[:device]
-      @channel      = (options[:channel] || 1) - 1
       @notes        = options[:notes].map { |n| Note.new(n) }
       @bpm          = options[:bpm] || 120
       @bar_duration = (60.to_f / @bpm) * 4
     end
 
-    def send_note(note, channel)
+    def send_note(note)
       note.play(device, channel, @bar_duration)
     end
 
@@ -30,7 +33,7 @@ module Collavoce
      this_many.times do
        @notes.each do |note|
          break unless Collavoce.running
-         send_note(note, @channel)
+         send_note(note)
        end
      end
     end
