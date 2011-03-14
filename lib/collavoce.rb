@@ -10,5 +10,6 @@ end
 
 require 'collavoce/note'
 require 'collavoce/voice'
+require 'collavoce/device_resolver'
 require 'collavoce/tracker'
 require 'collavoce/sigint'
