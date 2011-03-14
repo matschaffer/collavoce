@@ -1,9 +1,9 @@
 module Collavoce
   class Voice
-    attr_accessor :notes, :device
-
     def self.notes(notes)
-      @notes = notes
+      define_method(:notes) do
+        @notes ||= notes.map { |n| Note.new(n) }
+      end
     end
 
     def channel
@@ -14,24 +14,19 @@ module Collavoce
       define_method(:channel) { channel - 1 }
     end
 
-    def self.new(options = {})
-      super({:notes => @notes}.merge(options))
-    end
-
     def initialize(options = {})
       @device       = options[:device]
-      @notes        = options[:notes].map { |n| Note.new(n) }
       @bpm          = options[:bpm] || 120
       @bar_duration = (60.to_f / @bpm) * 4
     end
 
     def send_note(note)
-      note.play(device, channel, @bar_duration)
+      note.play(@device, channel, @bar_duration)
     end
 
     def play(this_many = 1)
      this_many.times do
-       @notes.each do |note|
+       notes.each do |note|
          break unless Collavoce.running
          send_note(note)
        end

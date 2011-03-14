@@ -9,6 +9,9 @@ class ChildWithNotes < TestVoice
   notes %w(C D E F)
 end
 
+class ChildWithoutNotes < TestVoice
+end
+
 describe Collavoce::Voice do
   before(:each) do
     @device = stub('device', :send => nil)
@@ -28,6 +31,11 @@ describe Collavoce::Voice do
   it "should channel from parent" do
     Collavoce::Note.any_instance.expects(:play).with(@device, 2, 4).times(4)
     ChildWithNotes.new(:bpm => 60, :device => @device).play
+  end
+
+  it "should channel from parent" do
+    Collavoce::Note.any_instance.expects(:play).with(@device, 2, 4).times(4)
+    ChildWithoutNotes.new(:bpm => 60, :device => @device).play
   end
 
   it "has helpers for modifying groups of notes" do
