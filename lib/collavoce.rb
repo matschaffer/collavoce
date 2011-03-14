@@ -1,3 +1,5 @@
+require 'logger'
+
 module Collavoce
   def self.device_name
     @device_name
@@ -5,6 +7,10 @@ module Collavoce
 
   def self.device_name=(device_name)
     @device_name = device_name
+  end
+
+  def self.logger
+    @logger ||= Logger.new(STDERR)
   end
 end
 

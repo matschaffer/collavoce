@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Collavoce::DeviceResolver do
   before(:each) do
+    Collavoce.logger.stubs(:info)
     @resolver = Collavoce::DeviceResolver.new
   end
 
@@ -33,7 +34,6 @@ describe Collavoce::DeviceResolver do
     Collavoce.device_name = nil
     mock_device = make_mock_device('not bob')
     @resolver.stubs(:output_devices).returns([mock_device])
-    $stderr.stubs(:puts)
     @resolver.resolve.should == mock_device.get_receiver
   end
 
