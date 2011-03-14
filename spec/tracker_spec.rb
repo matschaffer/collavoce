@@ -9,6 +9,10 @@ class MelodyB < Collavoce::Voice
 end
 
 describe Collavoce::Tracker do
+  before(:each) do
+    Collavoce::DeviceResolver.any_instance.stubs(:resolve)
+  end
+
   it "should play a list of voices" do
     MelodyA.any_instance.expects(:run)
     MelodyB.any_instance.expects(:run)
@@ -21,6 +25,6 @@ describe Collavoce::Tracker do
     MelodyB.any_instance.expects(:run)
     @tracker = Collavoce::Tracker.new([MelodyA],
                                       [MelodyB])
-    @tracker.run 
+    @tracker.run
   end
 end

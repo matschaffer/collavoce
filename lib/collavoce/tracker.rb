@@ -2,6 +2,7 @@ module Collavoce
   class Tracker
     def initialize(*tracks)
       @tracks = tracks
+      @device = DeviceResolver.new.resolve
     end
 
     def run(bpm = 120)
@@ -9,7 +10,7 @@ module Collavoce
       @tracks.each do |track|
         @threads << Thread.new do
           track.each do |voice|
-            voice.new(:bpm => bpm).run
+            voice.new(:bpm => bpm, :device => @device).run
           end
         end
       end

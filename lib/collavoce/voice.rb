@@ -1,8 +1,6 @@
 module Collavoce
   class Voice
-    MidiSystem = Java::javax.sound.midi.MidiSystem
-
-    attr_accessor :notes
+    attr_accessor :notes, :device
 
     def self.notes(notes)
       @notes = notes
@@ -17,45 +15,15 @@ module Collavoce
     end
 
     def initialize(options = {})
-      @channel      = (options.delete(:channel) || 1) - 1
-      @notes        = options.delete(:notes).map { |n| Note.new(n) }
-      @bpm          = options.delete(:bpm) || 120
+      @device       = options[:device]
+      @channel      = (options[:channel] || 1) - 1
+      @notes        = options[:notes].map { |n| Note.new(n) }
+      @bpm          = options[:bpm] || 120
       @bar_duration = (60.to_f / @bpm) * 4
     end
 
-    def output_devices
-      devices = MidiSystem.get_midi_device_info.to_a.map do |info|
-        MidiSystem.get_midi_device(info)
-      end
-      devices.select do |device|
-        device.get_max_receivers != 0
-      end
-    end
-
-    def device
-      name = Collavoce.device_name
-      selected_device = output_devices.detect do |device|
-        device.get_device_info.get_name == name
-      end
-
-      if !selected_device
-        raise "Couldn't find device called #{name}" if name
-        raise "No output devices available" if output_devices.empty?
-        selected_device = output_devices.first
-        $stderr.puts "INFO: Sending notes to #{selected_device.get_device_info.get_name}"
-      end
-
-      selected_device.open
-      selected_device
-    end
-
-    def receiver
-      return @receiver if @receiver
-      @receiver = device.get_receiver
-    end
-
     def send_note(note, channel)
-      note.play(receiver, channel, @bar_duration)
+      note.play(device, channel, @bar_duration)
     end
 
     def play(this_many = 1)
