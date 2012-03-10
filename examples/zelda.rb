@@ -10,11 +10,13 @@ class Melody1 < Collavoce::Voice
   end
 
   def run
-    3.times do
+    play_with { dim_notes(0, 1) }
+    4.times do
       play_with { dim_notes(0, 1) }
     end
-    play_with { dim_notes(0, 1, 2) }
-    2.times do
+    dim_notes(3)
+    play_with { dim_notes(0,2,3) }
+    3.times do
       play_with { dim_notes(0) }
     end
     play(4)
@@ -49,6 +51,6 @@ class BassPart3 < Collavoce::Voice
 end
 
 Collavoce::Tracker.new(
-  [Melody1],
-  [BassPart1, BassPart2, BassPart3]
+  [BassPart1, BassPart2, BassPart3],
+  [Melody1]
 ).run(240)
