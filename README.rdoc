@@ -12,6 +12,26 @@ Oh, and this is JRuby only at the moment. MRI should be doable I just haven't go
 
 = Usage
 
+== Set up a MIDI Synth
+
+If you already have a MIDI Synth hooked up on your system, you can skip this part. If not here's how to do it on a Mac.
+
+First open "Audio MIDI Setup" and access your MIDI preferences under "Window > Show MIDI Window". Then double click on your "IAC Driver". This is a virtual MIDI bus that enables MIDI communication between programs running on your system. By default it has no ports, but if you click on the "+" next to "Add and Remove Ports" it will create one called "IAC Bus 1".
+
+To make some noise, download Pd-extended and open the file exmaples/synths.pd with it. This file is a simple PureData patch file that defines a sine wave oscelator on MIDI channel 1 and a triangle wave oscelator on MIDI channel 2.
+
+== Run the demo
+
+Once you have a MIDI Synth set up you should be able to run:
+
+    rake demo
+
+Collavoce will select the first MIDI device with output channels. If you want to play on a different device, specify it at the top of examples/zelda.rb like this:
+
+    Collavoce.device_name = "My device name"
+
+== Writing your own songs
+
 Right now this is still a little raw, but have a look at examples/zelda.rb to get a feel for it.
 
 The basic idea is just a DSL for building melodies from arrays of strings. These notes and timings are then used to send MIDI events. Currently the MIDI device isn't configuratable (see lib/collavoce/voice.rb on that one). But that should get cleaned up soon.
